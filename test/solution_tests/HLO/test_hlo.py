@@ -1,9 +1,6 @@
-import solutions.HLO as HLO
+from solutions.HLO import hlo_solution
 
 
 class TestHlo():
     def test_hlo(self):
-        #help(HLO)
-        #print(type(HLO.hello_solution))
-        #assert HLO.hello() == "Hello, World!"
-        pass
+        assert hello() == "Hello, World!"
