@@ -10,7 +10,7 @@ repositories {
     mavenCentral()
 
     maven {
-        url  "http://dl.bintray.com/julianghionoiu/maven"
+        url  "https://maven.google.com"
     }
 }
 
@@ -65,3 +65,4 @@ jacocoTestReport {
         html.destination file("${buildDir}/jacocoHtml")
     }
 }
+
