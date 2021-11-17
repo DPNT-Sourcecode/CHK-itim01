@@ -11,12 +11,6 @@ repositories {
 
     maven {
         url  "http://dl.bintray.com/julianghionoiu/maven"
-        // Could not GET 'http://dl.bintray.com/julianghionoiu/maven/ro/ghionoiu/tdl-client-java/0.26.1/tdl-client-java-0.26.1.pom'. Received status code 403 from server: Forbidden
-        // http://status.bintray.com/
-        // > Update [July 4, 2021]
-        // > Thanks for supporting Bintray! This service has now been sunset.
-        // Maybe it's not just me getting 403'd then, and the java version of this challenge hasn't worked since July 2021?
-        // TODO Try another language if possible, so I can just get coding
     }
 }
 
@@ -71,6 +65,3 @@ jacocoTestReport {
         html.destination file("${buildDir}/jacocoHtml")
     }
 }
-
-
-
