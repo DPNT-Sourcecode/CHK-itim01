@@ -8,29 +8,36 @@ set -o pipefail
 SCRIPT_CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 CHALLENGE_ID=$1
-JACOCO_TEST_REPORT_XML_FILE="${SCRIPT_CURRENT_DIR}/build/reports/jacoco/test/jacocoTestReport.xml"
-mkdir -p ${SCRIPT_CURRENT_DIR}/target
-JAVA_CODE_COVERAGE_INFO="${SCRIPT_CURRENT_DIR}/coverage.tdl"
+COVERAGE_TEST_REPORT_XML_FILE="${SCRIPT_CURRENT_DIR}/coverage.xml"
+PYTHON_CODE_COVERAGE_INFO="${SCRIPT_CURRENT_DIR}/coverage.tdl"
 
-export JAVA_OPTS=${JAVA_OPTS:-""}
-export GRADLE_OPTS=${GRADLE_OPTS:-""}
+# Install dependencies
+pip install -r ${SCRIPT_CURRENT_DIR}/requirements.txt
 
-( . ${SCRIPT_CURRENT_DIR}/gradlew -p ${SCRIPT_CURRENT_DIR} -q clean test jacocoTestReport --console=plain 1>&2 )
+# Prepare Python project
+function init_python_modules_in() {
+    _target_dir=$1
+    for dir in `find ${SCRIPT_CURRENT_DIR}/${_target_dir} -type d`; do touch ${dir}/__init__.py; done
+}
+init_python_modules_in lib
+init_python_modules_in test
 
-[ -e ${JAVA_CODE_COVERAGE_INFO} ] && rm ${JAVA_CODE_COVERAGE_INFO}
+# Compute coverage
+( cd ${SCRIPT_CURRENT_DIR} && PYTHONPATH=lib coverage run --source "lib/solutions" -m pytest -s test || true 1>&2 )
+( cd ${SCRIPT_CURRENT_DIR} && coverage xml 1>&2 )
 
-if [ -f "${JACOCO_TEST_REPORT_XML_FILE}" ]; then
+[ -e ${PYTHON_CODE_COVERAGE_INFO} ] && rm ${PYTHON_CODE_COVERAGE_INFO}
+
+# Extract coverage percentage for target challenge
+if [ -f "${COVERAGE_TEST_REPORT_XML_FILE}" ]; then
     PERCENTAGE=$(( 0 ))
-    echo ${PERCENTAGE} > ${JAVA_CODE_COVERAGE_INFO}
-    COVERAGE_OUTPUT=$(xmllint --xpath '//package[@name="befaster/solutions/'${CHALLENGE_ID}'"]/counter[@type="INSTRUCTION"]' ${JACOCO_TEST_REPORT_XML_FILE})
+    echo ${PERCENTAGE} > ${PYTHON_CODE_COVERAGE_INFO}
+    COVERAGE_OUTPUT=$(xmllint --xpath '//package[@name="lib.solutions.'${CHALLENGE_ID}'"]/@line-rate' ${COVERAGE_TEST_REPORT_XML_FILE})
     if [[ ! -z "${COVERAGE_OUTPUT}" ]]; then
-        MISSED=$(echo ${COVERAGE_OUTPUT} | awk '{print missed, $3}' | tr '="' ' ' | awk '{print $2}')
-        COVERED=$(echo ${COVERAGE_OUTPUT} | awk '{print missed, $4}' | tr '="' ' '| awk '{print $2}')
-        TOTAL_LINES=$((MISSED + $COVERED))
-        PERCENTAGE=$(($COVERED * 100 / $TOTAL_LINES))
+        PERCENTAGE=$(echo ${COVERAGE_OUTPUT} | cut -d "\"" -f 2 | awk '{printf "%.0f",$1 * 100}' )
     fi
-    echo ${PERCENTAGE} > ${JAVA_CODE_COVERAGE_INFO}
-    cat ${JAVA_CODE_COVERAGE_INFO}
+    echo ${PERCENTAGE} > ${PYTHON_CODE_COVERAGE_INFO}
+    cat ${PYTHON_CODE_COVERAGE_INFO}
     exit 0
 else
     echo "No coverage report was found"

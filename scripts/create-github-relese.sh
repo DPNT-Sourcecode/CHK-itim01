@@ -11,7 +11,7 @@ if [ -z "${GITHUB_TOKEN}" ]; then
 fi
 
 
-TARGET_REPO="julianghionoiu/tdl-runner-java"
+TARGET_REPO="julianghionoiu/tdl-runner-python"
 
 RELEASE_VERSION=`cat version.txt`
 TAG_NAME="v${RELEASE_VERSION}"
