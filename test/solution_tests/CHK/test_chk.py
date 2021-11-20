@@ -87,7 +87,14 @@ class TestChk():
         assert chk.checkout("AB", [of1, of2]) == 20
 
     def test_multipleCompetingOffers(self):
-        of1 = chk.MultiPriceOffer({'A': 1}, 20)
-        of2 = chk.MultiPriceOffer({'A': 4}, 60)
+        of1 = chk.MultiPriceOffer({'A': 1}, 20) # saving of 50-20=30
+        of2 = chk.MultiPriceOffer({'A': 4}, 60) # saving of 50*4-60=340
+        assert chk.checkout("AAAA", [of1, of2]) == 80
+        assert chk.checkout("AAAA", [of2, of1]) == 60 # sorted by best saving
+
+    def test_multipleCompetingOffersMultipleProducts(self):
+        of1 = chk.MultiPriceOffer({'A': 1}, 40)         # saving of 10
+        of2 = chk.MultiPriceOffer({'A': 4, 'B': 9}, 60) # bigger saving
         assert chk.checkout("AAAA", [of1, of2]) == 80
         assert chk.checkout("AAAA", [of2, of1]) == 60
+
