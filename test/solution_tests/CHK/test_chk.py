@@ -1,4 +1,4 @@
-from solutions.CHK import checkout_solution
+from solutions.CHK import checkout_solution as chk
 
 def skuString(quantities):
     s = ""
@@ -7,50 +7,23 @@ def skuString(quantities):
     return s
 
 class TestOffer():
-    def test_test(self):
-        assert False
 
-class TestChk():
-
-    def test_empty(self):
-        assert checkout_solution.checkout('') == 0
-
-    def test_invalidItem(self):
-        assert checkout_solution.checkout('AB9') == checkout_solution.ERROR_INVALID_ARGUMENT
-
-    def test_singleItem(self):
-        item = 'B'
-        assert checkout_solution.checkout(item) == checkout_solution.normalPrices[item]
-
-    def test_oneOfEach(self):
-        items = checkout_solution.normalPrices.keys()
-        expected = sum([checkout_solution.normalPrices[sku] for sku in checkout_solution.normalPrices])
-        assert checkout_solution.checkout(''.join(items)) == expected
-
-    def test_singleItemOffer(self):
+    def test_applyTo(self):
         sku = 'A'
         offerContents = {sku: 1}
         offerPrice = 10
-        offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
+        offer = chk.MultiPriceOffer(offerContents, offerPrice)
 
         basket = offerContents.copy()
         assert offer.isEligible(basket)
         assert offer.applyTo(basket)
         assert basket[sku] == 0
-        assert offer.saving == checkout_solution.normalPrices[sku] - offerPrice
+        assert offer.saving == chk.normalPrices[sku] - offerPrice
 
-        assert checkout_solution.checkout(skuString(offerContents), offers=[offer]) == offerPrice
-
-    def test_multiItemOffer(self):
-        offerContents = {'A': 2, 'B': 2}
-        offerPrice = 30
-        offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
-        assert checkout_solution.checkout("AABB", offers=[offer]) == offerPrice
-
-    def test_sameOfferMultipleTimes(self):
+    def test_applyToMultipleTimes(self):
         offerContents = {'A': 1}
         offerPrice = 10
-        offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
+        offer = chk.MultiPriceOffer(offerContents, offerPrice)
 
         basket = {'A': 2}
         assert offer.applyTo(basket)
@@ -59,18 +32,52 @@ class TestChk():
         assert basket['A'] == 0
         assert not offer.applyTo(basket)
 
-        assert checkout_solution.checkout("A", [offer]) == 10
-        assert checkout_solution.checkout("AA", [offer]) == 20
-        assert checkout_solution.checkout("AAA", [offer]) == 30
-        assert checkout_solution.checkout("AAAB", [offer]) == 30 + checkout_solution.normalPrices['B']
+class TestChk():
+
+    def test_empty(self):
+        assert chk.checkout('') == 0
+
+    def test_invalidItem(self):
+        assert chk.checkout('AB9') == chk.ERROR_INVALID_ARGUMENT
+
+    def test_singleItem(self):
+        item = 'B'
+        assert chk.checkout(item) == chk.normalPrices[item]
+
+    def test_oneOfEach(self):
+        items = chk.normalPrices.keys()
+        expected = sum([chk.normalPrices[sku] for sku in chk.normalPrices])
+        assert chk.checkout(''.join(items)) == expected
+
+    def test_singleItemOffer(self):
+        offerContents = {'A': 1}
+        offerPrice = 10
+        offer = chk.MultiPriceOffer(offerContents, offerPrice)
+        assert chk.checkout('A', [offer]) == offerPrice
+
+    def test_multiItemOffer(self):
+        offerContents = {'A': 2, 'B': 2}
+        offerPrice = 30
+        offer = chk.MultiPriceOffer(offerContents, offerPrice)
+        assert chk.checkout("AABB", [offer]) == offerPrice
+
+    def test_sameOfferMultipleTimes(self):
+        offerContents = {'A': 1}
+        offerPrice = 10
+        offer = chk.MultiPriceOffer(offerContents, offerPrice)
+        assert chk.checkout("A", [offer]) == 10
+        assert chk.checkout("AA", [offer]) == 20
+        assert chk.checkout("AAA", [offer]) == 30
+        assert chk.checkout("AAAB", [offer]) == 30 + chk.normalPrices['B']
 
     def test_multiItemOfferMultipleTimes(self):
         offerContents = {'A': 1, 'B': 1}
         offerPrice = 30
-        offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
+        offer = chk.MultiPriceOffer(offerContents, offerPrice)
         skuString = "ABCAB"
-        expected = offerPrice * 2 + checkout_solution.normalPrices['C']
-        assert checkout_solution.checkout(skuString, offers=[offer]) == expected
+        expected = offerPrice * 2 + chk.normalPrices['C']
+        assert chk.checkout(skuString, [offer]) == expected
+
 
 
 
