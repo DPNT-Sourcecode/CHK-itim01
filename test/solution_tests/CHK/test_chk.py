@@ -17,4 +17,3 @@ class TestChk():
         items = checkout_solution.normalPrices.keys()
         expected = sum([checkout_solution[sku] for sku in checkout_solution.normalPrices])
         assert checkout_solution.checkout(''.join(items)) == expected
-

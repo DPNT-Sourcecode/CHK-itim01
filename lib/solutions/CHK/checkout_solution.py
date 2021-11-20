@@ -20,5 +20,3 @@ def checkout(skus):
         totalPrice += normalPrice
     # TODO offers
     return totalPrice
-
-
