@@ -76,11 +76,51 @@ class MultiPriceOffer:
         return True
 
 CURRENT_OFFERS = [
+
+    # "3A for 130"
     MultiPriceOffer({'A': 3}, 130),
+
+    # "5A for 200"
     MultiPriceOffer({'A': 5}, 200),
+
+    # "2B for 45"
     MultiPriceOffer({'B': 2}, 45),
+
+    # "2E get one B free"
     MultiPriceOffer({'E': 2, 'B': 1}, getTotalPrice({'E': 2})),
+
+    # "2F get one F free"
     MultiPriceOffer({'F': 3}, getTotalPrice({'F': 2})),
+
+    # "5H for 45"
+    MultiPriceOffer({'H': 5}, 45),
+
+    # "10H for 80"
+    MultiPriceOffer({'H': 10}, 80),
+
+    # "2K for 150"
+    MultiPriceOffer({'K': 2}, 150),
+
+    # "3N get one M free"
+    MultiPriceOffer({'N': 3, 'M': 1}, getTotalPrice({'N': 3})),
+
+    # "5P for 200"
+    MultiPriceOffer({'P': 5}, 200),
+
+    # "3Q for 80"
+    MultiPriceOffer({'Q': 3}, 80),
+
+    # "3R get one Q free"
+    MultiPriceOffer({'R': 3, 'Q': 1}, getTotalPrice({'R': 3})),
+
+    # "3U get one U free"
+    MultiPriceOffer({'U': 3}, getTotalPrice({'U': 2})),
+
+    # "2V for 90"
+    MultiPriceOffer({'V': 2}, 90),
+
+    # "3V for 130"
+    MultiPriceOffer({'V': 3}, 130)
 ]
 CURRENT_OFFERS.sort(key=lambda o: o.saving, reverse=True)
 
@@ -119,3 +159,4 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
