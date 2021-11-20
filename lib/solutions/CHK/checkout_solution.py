@@ -8,6 +8,7 @@ SKU_PRICES = {
     'C': 20,
     'D': 15,
     'E': 40,
+    'F': 10,
 }
 
 def getTotalPrice(quantities):
@@ -98,4 +99,5 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
 

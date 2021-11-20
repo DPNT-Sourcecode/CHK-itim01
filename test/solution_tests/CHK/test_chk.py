@@ -100,4 +100,9 @@ class TestChk():
         assert chk.checkout("FF") == chk.SKU_PRICES["F"] * 2
         assert chk.checkout("FFF") == chk.SKU_PRICES["F"] * 2
         assert chk.checkout("FFF", []) == chk.SKU_PRICES["F"] * 3
+        assert chk.checkout("FFFF") == chk.SKU_PRICES["F"] * 3
+        assert chk.checkout("FFFFF") == chk.SKU_PRICES["F"] * 4
+        assert chk.checkout("FFFFFF") == chk.SKU_PRICES["F"] * 4
+        assert chk.checkout("FFFFFFF") == chk.SKU_PRICES["F"] * 5
+
 
