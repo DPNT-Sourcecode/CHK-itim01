@@ -16,9 +16,7 @@ class MultiPriceOffer:
     def __init__(self, items, price):
         self.itemsIncluded = items
         self.price = price
-
-    def getSaving(self):
-        return self.price - getTotalPrice(self.itemsIncluded)
+        self.saving = self.price - getTotalPrice(self.itemsIncluded)
 
     def isEligible(self, quantities):
         for sku in self.itemsIncluded:
@@ -30,7 +28,7 @@ todaysOffers = [
     MultiPriceOffer({'A': 3}, 130),
     MultiPriceOffer({'B': 2}, 45),
 ]
-todaysOffers.sort(key=lambda o: o.getSaving(), reverse=True)
+todaysOffers.sort(key=lambda o: o.saving, reverse=True)
 
 # noinspection PyUnusedLocal
 # skus = unicode string
@@ -45,7 +43,7 @@ def checkout(skus):
 
     while True:
         for offer in todaysOffers:
-            if offer.isEligible(itemQuantities):
-
-
-
+            if offer.applyTo(itemQuantities):
+                price -= offer.getSaving
+                break
+        break
