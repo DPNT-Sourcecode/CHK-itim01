@@ -55,12 +55,10 @@ class TestChk():
         assert basket['A'] == 0
         assert not offer.applyTo(basket)
 
-    #def test_sameOfferMultipleTimes(self):
-    #    offer = checkout_solution.MultiPriceOffer({'A': 1}, 10)
-    #    assert checkout_solution.checkout("A", [offer]) == 10
-    #    assert checkout_solution.checkout("AA", [offer]) == 20
-    #    assert checkout_solution.checkout("AAA", [offer]) == 30
-    #    assert checkout_solution.checkout("AAAB", [offer]) == 30 + checkout_solution.normalPrices['B']
+        assert checkout_solution.checkout("A", [offer]) == 10
+        assert checkout_solution.checkout("AA", [offer]) == 20
+        assert checkout_solution.checkout("AAA", [offer]) == 30
+        assert checkout_solution.checkout("AAAB", [offer]) == 30 + checkout_solution.normalPrices['B']
 
     #def test_sameOfferMultipleTimes(self):
     #    offerContents = {'A': 1, 'B': 1}
@@ -69,5 +67,6 @@ class TestChk():
     #    skuString = "ABCAB"
     #    expected = offerPrice * 2 + checkout_solution.normalPrices['C']
     #    assert checkout_solution.checkout(skuString, offers=[offer]) == expected
+
 
 
