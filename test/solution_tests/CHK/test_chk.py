@@ -92,4 +92,6 @@ class TestChk():
         assert chk.checkout("AAAA", [of1, of2]) == 80
         assert chk.checkout("AAAA", [of2, of1]) == 60 # sorted by best saving
 
-
+    def test_two_e_one_b_free(self):
+        assert chk.checkout("EEB") == chk.SKU_PRICES["E"] * 2
+        assert chk.checkout("BEE") == chk.SKU_PRICES["E"] * 2
