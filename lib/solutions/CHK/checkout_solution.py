@@ -39,7 +39,7 @@ todaysOffers.sort(key=lambda o: o.saving, reverse=True)
 
 # noinspection PyUnusedLocal
 # skus = unicode string
-def checkout(skus):
+def checkout(skus, offers=todaysOffers):
     itemQuantities = {}
     for sku in skus:
         if sku not in normalPrices:
@@ -48,11 +48,12 @@ def checkout(skus):
 
     price = getTotalPrice(itemQuantities)
 
-    for offer in todaysOffers:
+    for offer in offers:
         if offer.applyTo(itemQuantities):
             price -= offer.saving
 
     return price
+
 
 
 

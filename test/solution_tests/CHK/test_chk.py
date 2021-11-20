@@ -35,7 +35,8 @@ class TestChk():
         assert basket[sku] == 0
         assert offer.saving == checkout_solution.normalPrices[sku] - offerPrice
 
-        assert checkout_solution.checkout(skuString(offerContents)) == offerPrice
+        assert checkout_solution.checkout(skuString(offerContents), offers=[offer]) == offerPrice
+
 
 
 
