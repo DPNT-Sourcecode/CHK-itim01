@@ -48,12 +48,13 @@ def checkout(skus):
 
     price = getTotalPrice(itemQuantities)
 
-    #while True:
-    #    for offer in todaysOffers:
-    #        if offer.applyTo(itemQuantities):
-    #            price -= offer.saving
-    #            break
-    #    break
+    while True:
+        for offer in todaysOffers:
+            if offer.applyTo(itemQuantities):
+                price -= offer.saving
+                break
+        break
 
     return price
+
 

@@ -20,12 +20,14 @@ class TestChk():
 
     def test_oneOfEach(self):
         items = checkout_solution.normalPrices.keys()
-        expected = sum([checkout_solution[sku] for sku in checkout_solution.normalPrices])
+        expected = sum([checkout_solution.normalPrices[sku] for sku in checkout_solution.normalPrices])
         assert checkout_solution.checkout(''.join(items)) == expected
 
     def test_oneOffer(self):
         offerContents = {'A': 1}
         offerPrice = 10
         offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
+        assert offer.isEligible(offerContents)
         assert checkout_solution.checkout(skuString(offerContents)) == offerPrice
+
 
