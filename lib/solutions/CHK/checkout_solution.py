@@ -21,23 +21,25 @@ class MultiPriceOffer:
         Parameters:
         itemsIncluded (dict of str: int): Mapping of what SKUs are included in
         the offer to how many of each are included.
+        price (int): Discounted price itemsIncluded can be purchased for, in the
+        same units as SKU_PRICES
         """
         self.itemsIncluded = items
         self.price = price
         self.saving = getTotalPrice(self.itemsIncluded) - self.price
         assert self.saving > 0
 
-    def isEligible(self, quantities):
+    def isEligible(self, purchase):
         for sku in self.itemsIncluded:
-            if quantities.get(sku, 0) < self.itemsIncluded[sku]:
+            if purchase.get(sku, 0) < self.itemsIncluded[sku]:
                 return False
         return True
 
-    def applyTo(self, quantities):
-        if not self.isEligible(quantities):
+    def applyTo(self, purchase):
+        if not self.isEligible(purchase):
             return False
         for sku in self.itemsIncluded:
-            quantities[sku] -= self.itemsIncluded[sku]
+            purchase[sku] -= self.itemsIncluded[sku]
         return True
 
 CURRENT_OFFERS = [
@@ -47,6 +49,7 @@ CURRENT_OFFERS = [
 CURRENT_OFFERS.sort(key=lambda o: o.saving, reverse=True)
 
 def applyFirstOfferTo(basket, offers):
+
     for offer in offers:
         if offer.applyTo(basket):
             return offer.saving
@@ -80,5 +83,6 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
 
 
