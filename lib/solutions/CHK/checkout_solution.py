@@ -36,6 +36,13 @@ class MultiPriceOffer:
         return True
 
     def applyTo(self, purchase):
+        """Removes the items included in this offer from the given purchase,
+        if the purchase is eligible for this offer.
+        Parameters:
+        purchase (dict of str: int): Mapping of SKU to quantity.
+        Returns:
+        bool: True if the offer was applied
+        """
         if not self.isEligible(purchase):
             return False
         for sku in self.itemsIncluded:
@@ -83,6 +90,7 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
 
 
 
