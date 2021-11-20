@@ -6,8 +6,8 @@ def skuString(quantities):
         s += sku * quantities[sku]
 
 class TestChk():
-    
-    def noItems(self):
+
+    def test_chk(self):
         assert checkout_solution.checkout('') == 0
 
     def invalidItem(self):
