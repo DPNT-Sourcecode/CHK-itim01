@@ -10,7 +10,7 @@ normalPrices = {
 }
 
 def getTotalPrice(quantities):
-    return sum(normalPrices[sku] for sku in quantities)
+    return sum(normalPrices[sku] * quantities[sku] for sku in quantities)
 
 class MultiPriceOffer:
     def __init__(self, items, price):
@@ -57,3 +57,4 @@ def checkout(skus, offers=todaysOffers):
         break
 
     return price
+
