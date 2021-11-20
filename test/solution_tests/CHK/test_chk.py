@@ -89,6 +89,5 @@ class TestChk():
     def test_multipleCompetingOffers(self):
         of1 = chk.MultiPriceOffer({'A': 1}, 20)
         of2 = chk.MultiPriceOffer({'A': 4}, 60)
-        assert chk.checkout("AAAA", [of1, of2]) == 60
+        assert chk.checkout("AAAA", [of1, of2]) == 80
         assert chk.checkout("AAAA", [of2, of1]) == 60
-
