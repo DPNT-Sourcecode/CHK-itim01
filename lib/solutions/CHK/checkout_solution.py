@@ -114,7 +114,7 @@ CURRENT_OFFERS = [
     MultiPriceOffer({'R': 3, 'Q': 1}, getTotalPrice({'R': 3})),
 
     # "3U get one U free"
-    MultiPriceOffer({'U': 3}, getTotalPrice({'U': 2})),
+    MultiPriceOffer({'U': 4}, getTotalPrice({'U': 3})),
 
     # "2V for 90"
     MultiPriceOffer({'V': 2}, 90),
@@ -159,5 +159,6 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
 
 
