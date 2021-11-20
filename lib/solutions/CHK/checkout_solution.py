@@ -17,6 +17,7 @@ class MultiPriceOffer:
         self.itemsIncluded = items
         self.price = price
         self.saving = getTotalPrice(self.itemsIncluded) - self.price
+        assert self.saving > 0
 
     def isEligible(self, quantities):
         for sku in self.itemsIncluded:
@@ -48,11 +49,15 @@ def checkout(skus, offers=todaysOffers):
 
     price = getTotalPrice(itemQuantities)
 
-    for offer in offers:
-        if offer.applyTo(itemQuantities):
-            price -= offer.saving
+    while True:
+        for offer in offers:
+            if offer.applyTo(itemQuantities):
+                price -= offer.saving
+                break
+        break
 
     return price
+
 
 
 
