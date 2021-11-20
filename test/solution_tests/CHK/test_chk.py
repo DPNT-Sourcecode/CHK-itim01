@@ -78,3 +78,17 @@ class TestChk():
         skuString = "ABCAB"
         expected = offerPrice * 2 + chk.SKU_PRICES['C']
         assert chk.checkout(skuString, [offer]) == expected
+
+    def test_multipleOffers(self):
+        of1 = chk.MultiPriceOffer({'A': 1}, 10)
+        of2 = chk.MultiPriceOffer({'B': 1}, 10)
+        assert chk.checkout("AB", [of1]) == 10 + chk.SKU_PRICES['B']
+        assert chk.checkout("AB", [of2]) == chk.SKU_PRICES['A'] + 10
+        assert chk.checkout("AB", [of1, of2]) == 20
+
+    def test_multipleCompetingOffers(self):
+        of1 = chk.MultiPriceOffer({'A': 1}, 20)
+        of2 = chk.MultiPriceOffer({'A': 4}, 60)
+        assert chk.checkout("AAAA", [of1, of2]) == 60
+        assert chk.checkout("AAAA", [of2, of1]) == 60
+

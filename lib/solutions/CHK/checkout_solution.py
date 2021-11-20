@@ -72,7 +72,8 @@ def checkout(skus, offers=CURRENT_OFFERS):
 
     Parameters:
     skus (string): The SKUs of items purchased, e.g. "AABABBACD".
-    offers (list of MultiPriceOffer): Offers to apply if eligible.
+    offers (list of MultiPriceOffer): Offers to apply if eligible, sorted best
+    saving first.
 
     Returns:
     int: The total price (in the same unit as used in SKU_PRICES)
@@ -93,6 +94,7 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
 
 
 
