@@ -69,6 +69,7 @@ class TestChk():
         assert chk.checkout("AA", [offer]) == 20
         assert chk.checkout("AAA", [offer]) == 30
         assert chk.checkout("AAAB", [offer]) == 30 + chk.normalPrices['B']
+        assert chk.checkout("ABAA", [offer]) == 30 + chk.normalPrices['B']
 
     def test_multiItemOfferMultipleTimes(self):
         offerContents = {'A': 1, 'B': 1}
@@ -77,6 +78,7 @@ class TestChk():
         skuString = "ABCAB"
         expected = offerPrice * 2 + chk.normalPrices['C']
         assert chk.checkout(skuString, [offer]) == expected
+
 
 
 
