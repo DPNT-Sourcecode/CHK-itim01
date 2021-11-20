@@ -1,8 +1,12 @@
-from solutions.HLO import hello_solution
+from solutions.CHK import checkout_solution
 
 
-class TestHlo():
-    def test_hlo(self):
-        assert hello_solution.hello("World") == "Hello, World!"
-        assert hello_solution.hello("Friend") == "Hello, Friend!"
+class TestChk():
+    
+    def noItems(self):
+        assert checkout_solution.checkout('') == 0
+
+    def invalidItem(self):
+        assert checkout_solution.checkout('AB9') == checkout_solution.ERROR_INVALID_ARGUMENT
+
 

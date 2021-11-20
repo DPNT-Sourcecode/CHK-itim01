@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+ERROR_INVALID_ARGUMENT = -1
+
 normalPrices = {
     'A': 50,
     'B': 30,
@@ -14,8 +16,9 @@ def checkout(skus):
     for sku in skus:
         normalPrice = normalPrices.get(sku)
         if (normalPrice == None):
-            return -1
+            return ERROR_INVALID_ARGUMENT
         totalPrice += normalPrice
     # TODO offers
     return totalPrice
+
 
