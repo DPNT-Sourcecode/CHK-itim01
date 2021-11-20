@@ -6,6 +6,10 @@ def skuString(quantities):
         s += sku * quantities[sku]
     return s
 
+class TestOffer():
+    def test_test(self):
+        assert False
+
 class TestChk():
 
     def test_empty(self):
@@ -60,13 +64,14 @@ class TestChk():
         assert checkout_solution.checkout("AAA", [offer]) == 30
         assert checkout_solution.checkout("AAAB", [offer]) == 30 + checkout_solution.normalPrices['B']
 
-    #def test_sameOfferMultipleTimes(self):
-    #    offerContents = {'A': 1, 'B': 1}
-    #    offerPrice = 30
-    #    offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
-    #    skuString = "ABCAB"
-    #    expected = offerPrice * 2 + checkout_solution.normalPrices['C']
-    #    assert checkout_solution.checkout(skuString, offers=[offer]) == expected
+    def test_multiItemOfferMultipleTimes(self):
+        offerContents = {'A': 1, 'B': 1}
+        offerPrice = 30
+        offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
+        skuString = "ABCAB"
+        expected = offerPrice * 2 + checkout_solution.normalPrices['C']
+        assert checkout_solution.checkout(skuString, offers=[offer]) == expected
+
 
 
 
