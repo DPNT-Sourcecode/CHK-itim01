@@ -95,3 +95,9 @@ class TestChk():
     def test_two_e_one_b_free(self):
         assert chk.checkout("EEB") == chk.SKU_PRICES["E"] * 2
         assert chk.checkout("BEE") == chk.SKU_PRICES["E"] * 2
+
+    def test_two_f_get_one_f_free(self):
+        assert chk.checkout("FF") == chk.SKU_PRICES["F"] * 2
+        assert chk.checkout("FFF") == chk.SKU_PRICES["F"] * 2
+        assert chk.checkout("FFF", []) == chk.SKU_PRICES["F"] * 3
+
