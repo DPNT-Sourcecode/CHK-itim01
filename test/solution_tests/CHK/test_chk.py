@@ -1,6 +1,6 @@
 from solutions.CHK import checkout_solution
 
-def quantitiesToString(quantities):
+def skuString(quantities):
     s = ""
     for sku in quantities:
         s += sku * quantities[sku]
@@ -26,4 +26,4 @@ class TestChk():
         offerContents = {'A': 1}
         offerPrice = 10
         offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
-        assert checkout_solution.checkout()
+        assert checkout_solution.checkout(skuString(offerContents), offerPrice)
