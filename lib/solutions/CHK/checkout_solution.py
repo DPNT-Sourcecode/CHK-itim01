@@ -20,10 +20,10 @@ class MultiPriceOffer:
 
     def isEligible(self, quantities):
         for sku in self.itemsIncluded:
-            if quantities[sku] < self.itemsIncluded.get(sku, 0):
+            if quantities.get(sku, 0) < self.itemsIncluded[sku]:
                 return False
         return True
-    
+
     def applyTo(self, quantities):
         if not self.isEligible(quantities):
             return False
@@ -56,4 +56,5 @@ def checkout(skus):
         break
 
     return price
+
 
