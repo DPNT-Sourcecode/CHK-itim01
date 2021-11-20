@@ -24,16 +24,19 @@ class TestChk():
         assert checkout_solution.checkout(''.join(items)) == expected
 
     def test_oneOffer(self):
-        offerContents = {'A': 1}
+        sku = 'A'
+        offerContents = {sku: 1}
         offerPrice = 10
         offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
 
         basket = offerContents.copy()
         assert offer.isEligible(basket)
         assert offer.applyTo(basket)
-        assert basket['A'] == 0
+        assert basket[sku] == 0
+        assert offer.saving == checkout_solution.normalPrices[sku] - offerPrice
 
         assert checkout_solution.checkout(skuString(offerContents)) == offerPrice
+
 
 
 
