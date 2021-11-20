@@ -27,7 +27,13 @@ class TestChk():
         offerContents = {'A': 1}
         offerPrice = 10
         offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
-        assert offer.isEligible(offerContents)
+
+        basket = offerContents.copy()
+        assert offer.isEligible(basket)
+        assert offer.applyTo(basket)
+        assert basket['A'] == 0
+
         assert checkout_solution.checkout(skuString(offerContents)) == offerPrice
+
 
 
