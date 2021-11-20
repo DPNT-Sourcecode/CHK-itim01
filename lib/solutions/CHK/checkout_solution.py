@@ -55,6 +55,10 @@ class MultiPriceOffer:
             purchase[sku] -= self.itemsIncluded[sku]
         return True
 
+
+# Assuming "buy 2 Fs and get one free" is identical to "3 Fs for the price of 2"
+# in that you can apply the offer more than once.
+
 CURRENT_OFFERS = [
     MultiPriceOffer({'A': 3}, 130),
     MultiPriceOffer({'A': 5}, 200),
@@ -99,5 +103,6 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
 
 
