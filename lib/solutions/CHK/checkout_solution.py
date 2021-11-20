@@ -13,7 +13,15 @@ def getTotalPrice(quantities):
     return sum(SKU_PRICES[sku] * quantities[sku] for sku in quantities)
 
 class MultiPriceOffer:
+    """Represents a special offer in which a certain set of items can can be
+       bought for a certain discounted price"""
+
     def __init__(self, items, price):
+        """
+        Parameters:
+        itemsIncluded (dict of str: int): Mapping of what SKUs are included in
+        the offer to how many of each are included.
+        """
         self.itemsIncluded = items
         self.price = price
         self.saving = getTotalPrice(self.itemsIncluded) - self.price
@@ -72,4 +80,5 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
 
