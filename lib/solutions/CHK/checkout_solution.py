@@ -38,37 +38,38 @@ CURRENT_OFFERS = [
 ]
 CURRENT_OFFERS.sort(key=lambda o: o.saving, reverse=True)
 
-def applyFirstOfferTo(itemQuantities, offers):
+def applyFirstOfferTo(basket, offers):
     for offer in offers:
-        if offer.applyTo(itemQuantities):
+        if offer.applyTo(basket):
             return offer.saving
     return 0
 
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus, offers=CURRENT_OFFERS):
-    """Calculates the total price of the items, with the given offers.
+    """Calculates the total price of a purchase.
 
     Parameters:
-    skus (string): The SKUs of items scanned, e.g. "AABABBACD".
+    skus (string): The SKUs of items purchased, e.g. "AABABBACD".
     offers (list of MultiPriceOffer): Offers to apply if eligible.
 
     Returns:
     int: The total price (in the same unit as used in SKU_PRICES)
     """
 
-    itemQuantities = {}
+    basket = {}
     for sku in skus:
         if sku not in SKU_PRICES:
             return ERROR_INVALID_ARGUMENT
-        itemQuantities[sku] = itemQuantities.get(sku, 0) + 1
+        basket[sku] = basket.get(sku, 0) + 1
 
-    price = getTotalPrice(itemQuantities)
+    price = getTotalPrice(basket)
 
     while True:
-        saving = applyFirstOfferTo(itemQuantities, offers)
+        saving = applyFirstOfferTo(basket, offers)
         if saving == 0:
             break
         price -= saving
 
     return price
+
