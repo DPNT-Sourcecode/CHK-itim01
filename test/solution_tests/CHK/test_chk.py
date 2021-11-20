@@ -100,9 +100,14 @@ class TestChk():
         assert chk.checkout("FF") == chk.SKU_PRICES["F"] * 2
         assert chk.checkout("FFF") == chk.SKU_PRICES["F"] * 2
         assert chk.checkout("FFF", []) == chk.SKU_PRICES["F"] * 3
+
+        # Assume that "buy 2 Fs and get one free" is identical to
+        # "3 Fs for the price of 2" in that you can apply the offer more than
+        # once. (Only the wording is new).
         assert chk.checkout("FFFF") == chk.SKU_PRICES["F"] * 3
         assert chk.checkout("FFFFF") == chk.SKU_PRICES["F"] * 4
         assert chk.checkout("FFFFFF") == chk.SKU_PRICES["F"] * 4
         assert chk.checkout("FFFFFFF") == chk.SKU_PRICES["F"] * 5
+
 
 
