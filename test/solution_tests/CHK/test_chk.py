@@ -10,6 +10,8 @@ class TestChk():
     def test_chk(self):
         assert checkout_solution.checkout('') == 0
 
+    # TODO: Figure out how to have more than one unit test in python
+
     def invalidItem(self):
         assert checkout_solution.checkout('AB9') == checkout_solution.ERROR_INVALID_ARGUMENT
 
@@ -27,3 +29,4 @@ class TestChk():
         offerPrice = 10
         offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
         assert checkout_solution.checkout(skuString(offerContents), offerPrice)
+
