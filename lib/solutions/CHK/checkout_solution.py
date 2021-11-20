@@ -57,8 +57,3 @@ def checkout(skus, offers=todaysOffers):
         break
 
     return price
-
-
-
-
-

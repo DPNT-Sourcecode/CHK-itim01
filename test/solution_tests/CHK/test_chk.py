@@ -23,7 +23,7 @@ class TestChk():
         expected = sum([checkout_solution.normalPrices[sku] for sku in checkout_solution.normalPrices])
         assert checkout_solution.checkout(''.join(items)) == expected
 
-    def test_oneOffer(self):
+    def test_singleItemOffer(self):
         sku = 'A'
         offerContents = {sku: 1}
         offerPrice = 10
@@ -37,7 +37,16 @@ class TestChk():
 
         assert checkout_solution.checkout(skuString(offerContents), offers=[offer]) == offerPrice
 
+    def test_multiItemOffer(self):
+        offerContents = {'A': 2, 'B': 2}
+        offerPrice = 30
+        offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
+        assert checkout_solution.checkout("AABB", offers=[offer]) == offerPrice
 
-
-
-
+    def test_sameOfferMultipleTimes(self):
+        offerContents = {'A': 1, 'B': 1}
+        offerPrice = 30
+        offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
+        skuString = "ABCAB"
+        expected = offerPrice * 2 + checkout_solution.normalPrices['C']
+        assert checkout_solution.checkout(skuString, offers=[offer]) == expected
