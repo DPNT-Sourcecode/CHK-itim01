@@ -20,10 +20,17 @@ class MultiPriceOffer:
     def getSaving(self):
         return self.price - getTotalPrice(self.itemsIncluded)
 
+    def isEligible(self, quantities):
+        for sku in self.itemsIncluded:
+            if quantities[sku] < self.itemsIncluded.get(sku, 0):
+                return False
+        return True
+
 todaysOffers = [
     MultiPriceOffer({'A': 3}, 130),
     MultiPriceOffer({'B': 2}, 45),
 ]
+todaysOffers.sort(key=lambda o: o.getSaving(), reverse=True)
 
 # noinspection PyUnusedLocal
 # skus = unicode string
@@ -33,6 +40,12 @@ def checkout(skus):
         if sku not in normalPrices:
             return ERROR_INVALID_ARGUMENT
         itemQuantities[sku] = itemQuantities.get(sku, 0) + 1
-    # TODO offers
-    return getTotalPrice(itemQuantities)
+
+    price = getTotalPrice(itemQuantities)
+
+    while True:
+        for offer in todaysOffers:
+            if offer.isEligible(itemQuantities):
+
+
 
