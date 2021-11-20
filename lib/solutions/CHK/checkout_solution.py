@@ -38,6 +38,12 @@ todaysOffers = [
 ]
 todaysOffers.sort(key=lambda o: o.saving, reverse=True)
 
+def applyFirstOfferTo(itemQuantities, offers):
+    for offer in offers:
+        if offer.applyTo(itemQuantities):
+            return offer.saving
+    return 0
+
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus, offers=todaysOffers):
@@ -57,4 +63,5 @@ def checkout(skus, offers=todaysOffers):
         break
 
     return price
+
 
