@@ -29,4 +29,3 @@ class TestChk():
         offerPrice = 10
         offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
         assert checkout_solution.checkout(skuString(offerContents), offerPrice)
-

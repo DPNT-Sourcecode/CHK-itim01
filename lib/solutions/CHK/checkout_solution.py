@@ -56,5 +56,3 @@ def checkout(skus):
         break
 
     return price
-
-

@@ -8,8 +8,3 @@ class TestHlo(TestCase):
 
     def another_test(self):
         assert False
-
-
-
-
-
