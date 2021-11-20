@@ -2,7 +2,7 @@
 
 ERROR_INVALID_ARGUMENT = -1
 
-normalPrices = {
+SKU_PRICES = {
     'A': 50,
     'B': 30,
     'C': 20,
@@ -10,7 +10,7 @@ normalPrices = {
 }
 
 def getTotalPrice(quantities):
-    return sum(normalPrices[sku] * quantities[sku] for sku in quantities)
+    return sum(SKU_PRICES[sku] * quantities[sku] for sku in quantities)
 
 class MultiPriceOffer:
     def __init__(self, items, price):
@@ -32,11 +32,11 @@ class MultiPriceOffer:
             quantities[sku] -= self.itemsIncluded[sku]
         return True
 
-todaysOffers = [
+CURRENT_OFFERS = [
     MultiPriceOffer({'A': 3}, 130),
     MultiPriceOffer({'B': 2}, 45),
 ]
-todaysOffers.sort(key=lambda o: o.saving, reverse=True)
+CURRENT_OFFERS.sort(key=lambda o: o.saving, reverse=True)
 
 def applyFirstOfferTo(itemQuantities, offers):
     for offer in offers:
@@ -46,10 +46,20 @@ def applyFirstOfferTo(itemQuantities, offers):
 
 # noinspection PyUnusedLocal
 # skus = unicode string
-def checkout(skus, offers=todaysOffers):
+def checkout(skus, offers=CURRENT_OFFERS):
+    """Calculates the total price of the items, with the given offers.
+
+    Parameters:
+    skus (string): The SKUs of items scanned, e.g. "AABABBACD".
+    offers (list of MultiPriceOffer): Offers to apply if eligible.
+
+    Returns:
+    int: The total price (in the same unit as used in SKU_PRICES)
+    """
+
     itemQuantities = {}
     for sku in skus:
-        if sku not in normalPrices:
+        if sku not in SKU_PRICES:
             return ERROR_INVALID_ARGUMENT
         itemQuantities[sku] = itemQuantities.get(sku, 0) + 1
 
@@ -62,6 +72,3 @@ def checkout(skus, offers=todaysOffers):
         price -= saving
 
     return price
-
-
-

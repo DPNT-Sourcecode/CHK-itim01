@@ -18,7 +18,7 @@ class TestOffer():
         assert offer.isEligible(basket)
         assert offer.applyTo(basket)
         assert basket[sku] == 0
-        assert offer.saving == chk.normalPrices[sku] - offerPrice
+        assert offer.saving == chk.SKU_PRICES[sku] - offerPrice
 
     def test_applyToMultipleTimes(self):
         offerContents = {'A': 1}
@@ -42,11 +42,11 @@ class TestChk():
 
     def test_singleItem(self):
         item = 'B'
-        assert chk.checkout(item) == chk.normalPrices[item]
+        assert chk.checkout(item) == chk.SKU_PRICES[item]
 
     def test_oneOfEach(self):
-        items = chk.normalPrices.keys()
-        expected = sum([chk.normalPrices[sku] for sku in chk.normalPrices])
+        items = chk.SKU_PRICES.keys()
+        expected = sum([chk.SKU_PRICES[sku] for sku in chk.SKU_PRICES])
         assert chk.checkout(''.join(items)) == expected
 
     def test_singleItemOffer(self):
@@ -68,19 +68,13 @@ class TestChk():
         assert chk.checkout("A", [offer]) == 10
         assert chk.checkout("AA", [offer]) == 20
         assert chk.checkout("AAA", [offer]) == 30
-        assert chk.checkout("AAAB", [offer]) == 30 + chk.normalPrices['B']
-        assert chk.checkout("ABAA", [offer]) == 30 + chk.normalPrices['B']
+        assert chk.checkout("AAAB", [offer]) == 30 + chk.SKU_PRICES['B']
+        assert chk.checkout("ABAA", [offer]) == 30 + chk.SKU_PRICES['B']
 
     def test_multiItemOfferMultipleTimes(self):
         offerContents = {'A': 1, 'B': 1}
         offerPrice = 30
         offer = chk.MultiPriceOffer(offerContents, offerPrice)
         skuString = "ABCAB"
-        expected = offerPrice * 2 + chk.normalPrices['C']
+        expected = offerPrice * 2 + chk.SKU_PRICES['C']
         assert chk.checkout(skuString, [offer]) == expected
-
-
-
-
-
-
