@@ -1,5 +1,9 @@
 from solutions.CHK import checkout_solution
 
+def quantitiesToString(quantities):
+    s = ""
+    for sku in quantities:
+        s += sku * quantities[sku]
 
 class TestChk():
     
@@ -17,3 +21,9 @@ class TestChk():
         items = checkout_solution.normalPrices.keys()
         expected = sum([checkout_solution[sku] for sku in checkout_solution.normalPrices])
         assert checkout_solution.checkout(''.join(items)) == expected
+
+    def oneOffer(self):
+        offerContents = {'A': 1}
+        offerPrice = 10
+        offer = checkout_solution.MultiPriceOffer(offerContents, offerPrice)
+        assert checkout_solution.checkout()
