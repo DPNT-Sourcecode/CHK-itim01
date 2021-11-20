@@ -24,12 +24,15 @@ class MultiPriceOffer:
         price (int): Discounted price itemsIncluded can be purchased for, in the
         same units as SKU_PRICES
         """
+
         self.itemsIncluded = items
         self.price = price
         self.saving = getTotalPrice(self.itemsIncluded) - self.price
         assert self.saving > 0
 
     def isEligible(self, purchase):
+        """Returns: bool: True if given purchase is eligible for this offer"""
+
         for sku in self.itemsIncluded:
             if purchase.get(sku, 0) < self.itemsIncluded[sku]:
                 return False
@@ -43,6 +46,7 @@ class MultiPriceOffer:
         Returns:
         bool: True if the offer was applied
         """
+
         if not self.isEligible(purchase):
             return False
         for sku in self.itemsIncluded:
@@ -55,10 +59,9 @@ CURRENT_OFFERS = [
 ]
 CURRENT_OFFERS.sort(key=lambda o: o.saving, reverse=True)
 
-def applyFirstOfferTo(basket, offers):
-
+def applyFirstOfferTo(purchase, offers):
     for offer in offers:
-        if offer.applyTo(basket):
+        if offer.applyTo(purchase):
             return offer.saving
     return 0
 
@@ -75,21 +78,22 @@ def checkout(skus, offers=CURRENT_OFFERS):
     int: The total price (in the same unit as used in SKU_PRICES)
     """
 
-    basket = {}
+    purchase = {}
     for sku in skus:
         if sku not in SKU_PRICES:
             return ERROR_INVALID_ARGUMENT
-        basket[sku] = basket.get(sku, 0) + 1
+        purchase[sku] = purchase.get(sku, 0) + 1
 
-    price = getTotalPrice(basket)
+    price = getTotalPrice(purchase)
 
     while True:
-        saving = applyFirstOfferTo(basket, offers)
+        saving = applyFirstOfferTo(purchase, offers)
         if saving == 0:
             break
         price -= saving
 
     return price
+
 
 
 
