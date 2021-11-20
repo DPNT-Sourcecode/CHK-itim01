@@ -120,7 +120,7 @@ CURRENT_OFFERS = [
     MultiPriceOffer({'V': 2}, 90),
 
     # "3V for 130"
-    MultiPriceOffer({'V': 3}, 130)
+    MultiPriceOffer({'V': 3}, 130),
 ]
 CURRENT_OFFERS.sort(key=lambda o: o.saving, reverse=True)
 
@@ -159,4 +159,5 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
 
