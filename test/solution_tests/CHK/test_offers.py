@@ -7,7 +7,7 @@ class TestMultiPriceOffer():
         sku = 'A'
         offerContents = {sku: 1}
         offerPrice = 10
-        offer = offers.MultiPriceOffer(offerContents, offerPrice)
+        offer = offers.MultiPriceOffer(offerContents, offerPrice, TEST_PRICES)
 
         basket = offerContents.copy()
         assert offer.getPotentialSaving(basket) > 0
@@ -18,7 +18,7 @@ class TestMultiPriceOffer():
     def test_applyToMultipleTimes(self):
         offerContents = {'A': 1}
         offerPrice = 10
-        offer = offers.MultiPriceOffer(offerContents, offerPrice)
+        offer = offers.MultiPriceOffer(offerContents, offerPrice, TEST_PRICES)
 
         basket = {'A': 2}
         assert offer.applyTo(basket)
@@ -34,3 +34,4 @@ class TestGroupDiscountOffer():
 
     def test_applyToMultipleTimes(self):
         pass
+
