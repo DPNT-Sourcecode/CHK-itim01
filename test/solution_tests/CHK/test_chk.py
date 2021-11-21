@@ -1,37 +1,5 @@
 from solutions.CHK import checkout_solution as chk
 
-def skuString(quantities):
-    s = ""
-    for sku in quantities:
-        s += sku * quantities[sku]
-    return s
-
-class TestOffer():
-
-    def test_applyTo(self):
-        sku = 'A'
-        offerContents = {sku: 1}
-        offerPrice = 10
-        offer = chk.MultiPriceOffer(offerContents, offerPrice)
-
-        basket = offerContents.copy()
-        assert offer.getPotentialSaving(basket) > 0
-        assert offer.applyTo(basket)
-        assert basket[sku] == 0
-        assert offer.saving == chk.SKU_PRICES[sku] - offerPrice
-
-    def test_applyToMultipleTimes(self):
-        offerContents = {'A': 1}
-        offerPrice = 10
-        offer = chk.MultiPriceOffer(offerContents, offerPrice)
-
-        basket = {'A': 2}
-        assert offer.applyTo(basket)
-        assert basket['A'] == 1
-        assert offer.applyTo(basket)
-        assert basket['A'] == 0
-        assert not offer.applyTo(basket)
-
 class TestChk():
 
     def test_empty(self):
@@ -104,4 +72,5 @@ class TestChk():
         assert chk.checkout("FFFFF") == chk.SKU_PRICES["F"] * 4
         assert chk.checkout("FFFFFF") == chk.SKU_PRICES["F"] * 4
         assert chk.checkout("FFFFFFF") == chk.SKU_PRICES["F"] * 5
+
 
