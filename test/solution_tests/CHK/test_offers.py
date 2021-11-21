@@ -1,4 +1,5 @@
-from solutions.CHK import checkout_solution as chk
+from solutions.CHK import offers as offers
+from test.solution_tests.CHK.test_chk import TEST_PRICES
 
 class TestMultiPriceOffer():
 
@@ -6,18 +7,18 @@ class TestMultiPriceOffer():
         sku = 'A'
         offerContents = {sku: 1}
         offerPrice = 10
-        offer = chk.MultiPriceOffer(offerContents, offerPrice)
+        offer = offers.MultiPriceOffer(offerContents, offerPrice)
 
         basket = offerContents.copy()
         assert offer.getPotentialSaving(basket) > 0
         assert offer.applyTo(basket)
         assert basket[sku] == 0
-        assert offer.saving == chk.SKU_PRICES[sku] - offerPrice
+        assert offer.saving == TEST_PRICES[sku] - offerPrice
 
     def test_applyToMultipleTimes(self):
         offerContents = {'A': 1}
         offerPrice = 10
-        offer = chk.MultiPriceOffer(offerContents, offerPrice)
+        offer = offers.MultiPriceOffer(offerContents, offerPrice)
 
         basket = {'A': 2}
         assert offer.applyTo(basket)
@@ -33,3 +34,4 @@ class TestGroupDiscountOffer():
 
     def test_applyToMultipleTimes(self):
         pass
+

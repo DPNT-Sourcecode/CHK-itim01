@@ -48,7 +48,7 @@ class GroupDiscountOffer:
        For example: Buy any 3 fruits (A, B, C, and/or D) for £3.
        The items need not be different: The same items 3 times counts."""
 
-    def __init__(self, itemTypes, itemCount, price):
+    def __init__(self, itemTypes, itemCount, price, prices=chk.CURRENT_PRICES):
         """
         Parameters:
         items (list of str): SKUs included in the offer.
@@ -60,7 +60,7 @@ class GroupDiscountOffer:
         self.price = price
 
         # store itemTypes most expensive first
-        self.itemTypes.sort(key=lambda sku: chk.SKU_PRICES[sku], reverse=True)
+        self.itemTypes.sort(key=lambda sku: prices[sku], reverse=True)
 
     def getPotentialSaving(self, purchase):
         """See MultiPriceOffer.getPotentialSaving"""
@@ -69,4 +69,5 @@ class GroupDiscountOffer:
     def applyTo(self, purchase):
         """See MultiPriceOffer.applyTo"""
         pass
+
 

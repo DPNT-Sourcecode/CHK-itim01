@@ -3,7 +3,7 @@ from offers import MultiPriceOffer
 
 ERROR_INVALID_ARGUMENT = -1
 
-SKU_PRICES = {
+CURRENT_PRICES = {
     'A': 50,
     'B': 30,
     'C': 20,
@@ -32,8 +32,8 @@ SKU_PRICES = {
     'Z': 50,
 }
 
-def getTotalPrice(quantities):
-    return sum(SKU_PRICES[sku] * quantities[sku] for sku in quantities)
+def getTotalPrice(quantities, prices=CURRENT_PRICES):
+    return sum(CURRENT_PRICES[sku] * quantities[sku] for sku in quantities)
 
 CURRENT_OFFERS = [
 
@@ -91,20 +91,21 @@ def applyBestOffer(purchase, offers):
 
 # noinspection PyUnusedLocal
 # skus = unicode string
-def checkout(skus, offers=CURRENT_OFFERS):
+def checkout(skus, prices=CURRENT_PRICES, offers=CURRENT_OFFERS):
     """Calculates the total price of a purchase.
 
     Parameters:
     skus (string): The SKUs of items purchased, e.g. "AABABBACD".
+    prices (dict of str to int): Mapping of SKU to price
     offers (list of MultiPriceOffer): Offers to apply if eligible.
 
     Returns:
-    int: The total price (in the same unit as used in SKU_PRICES)
+    int: The total price (in the same unit as used in prices)
     """
 
     purchase = {}
     for sku in skus:
-        if sku not in SKU_PRICES:
+        if sku not in prices:
             return ERROR_INVALID_ARGUMENT
         purchase[sku] = purchase.get(sku, 0) + 1
 
@@ -117,3 +118,4 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
