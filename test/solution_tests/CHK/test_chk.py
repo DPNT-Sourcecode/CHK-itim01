@@ -84,53 +84,54 @@ class TestChk():
         assert chk.checkout('FFFFFF', TEST_PRICES, [offer]) == TEST_PRICES['F'] * 4
         assert chk.checkout('FFFFFFF', TEST_PRICES, [offer]) == TEST_PRICES['F'] * 5
 
-    #def test_singleItemGroupDiscountOffer(self):
-    #    offer = chk.GroupDiscountOffer(['A'], 1, 10, TEST_PRICES)
-    #    assert chk.checkout('A', TEST_PRICES, [offer]) == 10
-    #    assert chk.checkout('B', TEST_PRICES, [offer]) == TEST_PRICES['B']
-    #    offer = chk.GroupDiscountOffer(['A', 'B'], 1, 10, TEST_PRICES)
-    #    assert chk.checkout('A', TEST_PRICES, [offer]) == 10
-    #    assert chk.checkout('B', TEST_PRICES, [offer]) == 10
-    #    assert chk.checkout('AB', TEST_PRICES, [offer]) == 10 + (TEST_PRICES[c] for c in 'AB')
-    #    offer = chk.GroupDiscountOffer(['B', 'A'], 1, 10, TEST_PRICES)
-    #    assert chk.checkout('A', TEST_PRICES, [offer]) == 10
-    #    assert chk.checkout('B', TEST_PRICES, [offer]) == 10
-    #    assert chk.checkout('AB', TEST_PRICES, [offer]) == 10 + min(TEST_PRICES[c] for c in 'AB')
-#
-    #def test_multiItemGroupDiscountOffer(self):
-    #    offer = chk.GroupDiscountOffer(['A', 'B', 'C'], 2, 20, TEST_PRICES)
-    #    assert chk.checkout('AA', TEST_PRICES, [offer]) == 20
-    #    assert chk.checkout('BB', TEST_PRICES, [offer]) == 20
-    #    assert chk.checkout('CC', TEST_PRICES, [offer]) == 20
-    #    assert chk.checkout('AB', TEST_PRICES, [offer]) == 20
-    #    assert chk.checkout('BC', TEST_PRICES, [offer]) == 20
-    #    assert chk.checkout('CA', TEST_PRICES, [offer]) == 20
-#
-    #def test_groupDiscountOfferMultipleTimes(self):
-    #    offer = chk.GroupDiscountOffer(['A', 'B'], 2, 10, TEST_PRICES)
-    #    assert chk.checkout('AAAAAA', TEST_PRICES, [offer]) == 10 * 3
-    #    assert chk.checkout('AAABBB', TEST_PRICES, [offer]) == 10 * 3
-#
-    #def test_multipleGroupDiscountOffers(self):
-    #    of1 = chk.GroupDiscountOffer(['A', 'B'], 2, 10, TEST_PRICES)
-    #    of2 = chk.GroupDiscountOffer(['C', 'D'], 2, 10, TEST_PRICES)
-    #    assert chk.checkout('ABCD', TEST_PRICES, [of1, of2]) == 20
-#
-    #def test_multipleCompetingGroupDiscountOffers(self):
-    #    of1 = chk.GroupDiscountOffer(['C'], 2, 20, TEST_PRICES)
-    #    of2 = chk.GroupDiscountOffer(['A', 'B', 'C'], 3, 30, TEST_PRICES)
-    #    assert chk.checkout('ABCC', TEST_PRICES, [of1, of2]) == 20 + TEST_PRICES['C']
-#
-    #def test_groupDiscountAndMultiBuy(self):
-    #    of1 = chk.GroupDiscountOffer(['A', 'B', 'C'], 3, 20, TEST_PRICES)
-    #    of2 = chk.MultiPriceOffer({'A': 1, 'B': 1, 'C': 1}, 30, TEST_PRICES)
-    #    assert chk.checkout('ABC', TEST_PRICES, [of1, of2]) == 20
-    #    of1 = chk.GroupDiscountOffer(['A', 'B', 'C'], 3, 40, TEST_PRICES)
-    #    of2 = chk.MultiPriceOffer({'A': 1, 'B': 1, 'C': 1}, 30, TEST_PRICES)
-    #    assert chk.checkout('ABC', TEST_PRICES, [of1, of2]) == 30
-    #    assert chk.checkout('ABCCCC', TEST_PRICES, [of1, of2]) == 30 + 40
+    def test_singleItemGroupDiscountOffer(self):
+        offer = chk.GroupDiscountOffer(['A'], 1, 10, TEST_PRICES)
+        assert chk.checkout('A', TEST_PRICES, [offer]) == 10
+        assert chk.checkout('B', TEST_PRICES, [offer]) == TEST_PRICES['B']
+        offer = chk.GroupDiscountOffer(['A', 'B'], 1, 10, TEST_PRICES)
+        assert chk.checkout('A', TEST_PRICES, [offer]) == 10
+        assert chk.checkout('B', TEST_PRICES, [offer]) == 10
+        assert chk.checkout('AB', TEST_PRICES, [offer]) == 10 + (TEST_PRICES[c] for c in 'AB')
+        offer = chk.GroupDiscountOffer(['B', 'A'], 1, 10, TEST_PRICES)
+        assert chk.checkout('A', TEST_PRICES, [offer]) == 10
+        assert chk.checkout('B', TEST_PRICES, [offer]) == 10
+        assert chk.checkout('AB', TEST_PRICES, [offer]) == 10 + min(TEST_PRICES[c] for c in 'AB')
+
+    def test_multiItemGroupDiscountOffer(self):
+        offer = chk.GroupDiscountOffer(['A', 'B', 'C'], 2, 20, TEST_PRICES)
+        assert chk.checkout('AA', TEST_PRICES, [offer]) == 20
+        assert chk.checkout('BB', TEST_PRICES, [offer]) == 20
+        assert chk.checkout('CC', TEST_PRICES, [offer]) == 20
+        assert chk.checkout('AB', TEST_PRICES, [offer]) == 20
+        assert chk.checkout('BC', TEST_PRICES, [offer]) == 20
+        assert chk.checkout('CA', TEST_PRICES, [offer]) == 20
+
+    def test_groupDiscountOfferMultipleTimes(self):
+        offer = chk.GroupDiscountOffer(['A', 'B'], 2, 10, TEST_PRICES)
+        assert chk.checkout('AAAAAA', TEST_PRICES, [offer]) == 10 * 3
+        assert chk.checkout('AAABBB', TEST_PRICES, [offer]) == 10 * 3
+
+    def test_multipleGroupDiscountOffers(self):
+        of1 = chk.GroupDiscountOffer(['A', 'B'], 2, 10, TEST_PRICES)
+        of2 = chk.GroupDiscountOffer(['C', 'D'], 2, 10, TEST_PRICES)
+        assert chk.checkout('ABCD', TEST_PRICES, [of1, of2]) == 20
+
+    def test_multipleCompetingGroupDiscountOffers(self):
+        of1 = chk.GroupDiscountOffer(['C'], 2, 20, TEST_PRICES)
+        of2 = chk.GroupDiscountOffer(['A', 'B', 'C'], 3, 30, TEST_PRICES)
+        assert chk.checkout('ABCC', TEST_PRICES, [of1, of2]) == 20 + TEST_PRICES['C']
+
+    def test_groupDiscountAndMultiBuy(self):
+        of1 = chk.GroupDiscountOffer(['A', 'B', 'C'], 3, 20, TEST_PRICES)
+        of2 = chk.MultiPriceOffer({'A': 1, 'B': 1, 'C': 1}, 30, TEST_PRICES)
+        assert chk.checkout('ABC', TEST_PRICES, [of1, of2]) == 20
+        of1 = chk.GroupDiscountOffer(['A', 'B', 'C'], 3, 40, TEST_PRICES)
+        of2 = chk.MultiPriceOffer({'A': 1, 'B': 1, 'C': 1}, 30, TEST_PRICES)
+        assert chk.checkout('ABC', TEST_PRICES, [of1, of2]) == 30
+        assert chk.checkout('ABCCCC', TEST_PRICES, [of1, of2]) == 30 + 40
 
     #def test_groupDiscountWorseThanNothing(self): assert False
+
 
 
 
