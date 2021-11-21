@@ -125,6 +125,8 @@ CURRENT_OFFERS = [
 ]
 
 def applyBestOffer(purchase, offers):
+    if (len(offers)) == 0:
+        return 0
     bestOffer = max(offers, key=lambda o: o.getPotentialSaving(purchase))
     return bestOffer.applyTo(purchase)
 
@@ -156,4 +158,5 @@ def checkout(skus, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
 
