@@ -136,7 +136,9 @@ class TestChk():
         assert chk.checkout('ABCCCC', TEST_PRICES, [of1, of2]) == 30 + 40
 
     def test_groupDiscountWorseThanNothing(self):
-        assert False # TODO
+        offer = GroupDiscountOffer(['A'], 3, TEST_PRICES['A'] * 4, TEST_PRICES)
+        assert offer.getPotentialSaving({'A': 3}) == 0
+        assert chk.checkout('AAA', TEST_PRICES, [offer]) == TEST_PRICES['A'] * 3
 
 
 
