@@ -50,12 +50,13 @@ class GroupDiscountOffer:
        For example: Buy any 3 fruits (A, B, C, and/or D) for £3.
        The items need not be different: The same items 3 times counts."""
 
-    def __init__(self, itemTypes, itemCount, price, prices=chk.CURRENT_PRICES):
+    def __init__(self, itemTypes, itemCount, price, prices):
         """
         Parameters:
         items (list of str): SKUs included in the offer.
         itemCount (int): Number of items which must be purchased.
-        price: Discounted price itemCount items can be bought for.
+        price (int): Discounted price itemCount items can be bought for.
+        prices (dict of str: int): Mapping of SKU to price
         """
         self.itemTypes = itemTypes
         self.itemCount = itemCount
@@ -71,6 +72,7 @@ class GroupDiscountOffer:
     def applyTo(self, purchase):
         """See MultiPriceOffer.applyTo"""
         pass
+
 
 
 
