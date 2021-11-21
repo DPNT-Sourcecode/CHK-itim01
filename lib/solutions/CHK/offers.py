@@ -10,8 +10,7 @@ class MultiPriceOffer:
         Parameters:
         items (dict of str: int): Mapping of what SKUs are included in
         the offer to how many of each are included.
-        price (int): Discounted price itemsIncluded can be purchased for, in the
-        same units as SKU_PRICES
+        price (int): Discounted price itemsIncluded can be purchased for
         """
         self.itemsIncluded = items
         self.price = price
@@ -70,3 +69,4 @@ class GroupDiscountOffer:
     def applyTo(self, purchase):
         """See MultiPriceOffer.applyTo"""
         pass
+
