@@ -118,4 +118,3 @@ def checkout(skus, prices=PRICES, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
-

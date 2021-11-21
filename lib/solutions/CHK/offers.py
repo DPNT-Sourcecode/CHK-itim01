@@ -109,6 +109,3 @@ class GroupDiscountOffer:
         for sku in selection:
             purchase[sku] -= selection[sku]
         return saving
-
-
-
