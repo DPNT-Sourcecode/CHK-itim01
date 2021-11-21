@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from offers import MultiPriceOffer
+from offers import MultiPriceOffer, GroupDiscountOffer
 
 ERROR_INVALID_ARGUMENT = -1
 
@@ -118,4 +118,5 @@ def checkout(skus, prices=CURRENT_PRICES, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
 
