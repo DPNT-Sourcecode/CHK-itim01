@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import checkout_solution as chk
+from solutions.CHK import checkout_solution as chk
 
 class MultiPriceOffer:
     """Represents a special offer in which a certain set of items can can be
@@ -109,4 +109,5 @@ class GroupDiscountOffer:
         for sku in selection:
             purchase[sku] -= selection[sku]
         return saving
+
 
