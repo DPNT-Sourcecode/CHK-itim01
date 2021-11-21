@@ -86,6 +86,10 @@ class TestChk():
 
     def test_singleItemGroupDiscountOffer(self):
         offer = chk.GroupDiscountOffer(['A'], 1, 10, TEST_PRICES)
+
+        assert offer.getBestSelection({'A': 1}) == {'A': 1}
+        assert offer.getPotentialSaving({'A': 1}) == TEST_PRICES['A'] - 10
+
         assert chk.checkout('A', TEST_PRICES, [offer]) == 10
         assert chk.checkout('B', TEST_PRICES, [offer]) == TEST_PRICES['B']
         offer = chk.GroupDiscountOffer(['A', 'B'], 1, 10, TEST_PRICES)
@@ -131,6 +135,7 @@ class TestChk():
         assert chk.checkout('ABCCCC', TEST_PRICES, [of1, of2]) == 30 + 40
 
     #def test_groupDiscountWorseThanNothing(self): assert False
+
 
 
 
