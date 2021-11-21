@@ -31,5 +31,3 @@ PRICES = {
 
 def getTotalPrice(quantities, prices=PRICES):
     return sum(prices[sku] * quantities[sku] for sku in quantities)
-
-

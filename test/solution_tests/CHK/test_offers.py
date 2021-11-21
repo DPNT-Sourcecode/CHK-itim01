@@ -52,4 +52,3 @@ class TestGroupDiscountOffer():
         assert basket['A'] == 3
         assert offer.applyTo(basket) == prices['A'] * 3 - bargain
         assert basket['A'] == 0
-

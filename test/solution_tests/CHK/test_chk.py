@@ -134,8 +134,3 @@ class TestChk():
     def test_groupDiscountWorseThanNothing(self):
         offer = GroupDiscountOffer(['A'], 3, TEST_PRICES['A'] * 4, TEST_PRICES)
         assert chk.checkout('AAA', TEST_PRICES, [offer]) == TEST_PRICES['A'] * 3
-
-
-
-
-

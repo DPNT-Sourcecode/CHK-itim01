@@ -25,8 +25,8 @@ CURRENT_OFFERS = [
     # "10H for 80"
     offs.MultiPriceOffer({'H': 10}, 80, PRICES),
 
-    # "2K for 150"
-    offs.MultiPriceOffer({'K': 2}, 150, PRICES),
+    # "2K for 120"
+    offs.MultiPriceOffer({'K': 2}, 120, PRICES),
 
     # "3N get one M free"
     offs.MultiPriceOffer({'N': 3, 'M': 1}, getTotalPrice({'N': 3}), PRICES),
@@ -48,6 +48,9 @@ CURRENT_OFFERS = [
 
     # "3V for 130"
     offs.MultiPriceOffer({'V': 3}, 130, PRICES),
+
+    # "buy any 3 of (S,T,X,Y,Z) for 45"
+    offs.GroupDiscountOffer(['S', 'T', 'X', 'Y', 'Z'], 3, 45, PRICES)
 ]
 
 def applyBestOffer(purchase, offers):
@@ -85,4 +88,3 @@ def checkout(skus, prices=PRICES, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
-
