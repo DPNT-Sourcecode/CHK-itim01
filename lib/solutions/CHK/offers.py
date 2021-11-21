@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-from solutions.CHK import checkout_solution as chk
+from solutions.includes import getTotalPrice
 
 class MultiPriceOffer:
     """Represents a special offer in which a certain set of items can can be
@@ -17,7 +17,7 @@ class MultiPriceOffer:
         """
         self.itemsIncluded = items
         self.price = price
-        self.saving = chk.getTotalPrice(self.itemsIncluded, prices) - self.price
+        self.saving = getTotalPrice(self.itemsIncluded, prices) - self.price
         assert self.saving > 0
 
     def getPotentialSaving(self, purchase):
@@ -91,7 +91,7 @@ class GroupDiscountOffer:
         selection = self.getBestSelection(purchase)
         if selection is None:
             return 0, None
-        saving = chk.getTotalPrice(selection, self.prices) - self.price
+        saving = getTotalPrice(selection, self.prices) - self.price
         if saving < 0:
             return 0, None
         return saving, selection
@@ -109,3 +109,4 @@ class GroupDiscountOffer:
         for sku in selection:
             purchase[sku] -= selection[sku]
         return saving
+
