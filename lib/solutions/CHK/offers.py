@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-from solutions.includes import getTotalPrice
+from solutions.CHK.includes import getTotalPrice
 
 class MultiPriceOffer:
     """Represents a special offer in which a certain set of items can can be
@@ -109,4 +109,5 @@ class GroupDiscountOffer:
         for sku in selection:
             purchase[sku] -= selection[sku]
         return saving
+
 
