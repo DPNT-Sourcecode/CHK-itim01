@@ -62,14 +62,43 @@ class GroupDiscountOffer:
         self.itemTypes = itemTypes
         self.itemCount = itemCount
         self.price = price
+        self.prices = prices
 
         # store itemTypes most expensive first
         self.itemTypes.sort(key=lambda sku: prices[sku], reverse=True)
 
+    def getBestSelection(self, purchase):
+        """Finds the optimum (most expensive) items from the purchase to apply
+        this offer to, in order to generate the maximum possible saving.
+        Returns:
+        dict of str: int: Which SKUs to apply it to, and how many of each
+        """
+        itemsNeeded = self.itemCount
+        selection = {}
+        for sku in self.itemTypes:
+            numInBasket = purchase.get(sku, 0)
+            numToUse = min(numInBasket, itemsNeeded)
+            if numToUse > 0:
+                selection[sku] = numToUse
+                itemsNeeded -= numToUse
+            if itemsNeeded == 0:
+                break
+        if itemsNeeded > 0:
+            return None
+        return selection
+
+
     def getPotentialSaving(self, purchase):
         """See MultiPriceOffer.getPotentialSaving"""
-        pass
+        selection = self.getBestSelection(purchase)
+        if selection is None:
+            return 0
+        saving = self.price - chk.getTotalPrice(selection, self.prices)
+        if saving < 0:
+            return 0
+        return saving
 
     def applyTo(self, purchase):
         """See MultiPriceOffer.applyTo"""
         pass
+

@@ -130,4 +130,7 @@ class TestChk():
     #    assert chk.checkout('ABC', TEST_PRICES, [of1, of2]) == 30
     #    assert chk.checkout('ABCCCC', TEST_PRICES, [of1, of2]) == 30 + 40
 
+    #def test_groupDiscountWorseThanNothing(self): assert False
+
+
 
