@@ -15,7 +15,7 @@ class TestOffer():
         offer = chk.MultiPriceOffer(offerContents, offerPrice)
 
         basket = offerContents.copy()
-        assert offer.isEligible(basket)
+        assert offer.getPotentialSaving(basket) > 0
         assert offer.applyTo(basket)
         assert basket[sku] == 0
         assert offer.saving == chk.SKU_PRICES[sku] - offerPrice
@@ -89,8 +89,8 @@ class TestChk():
     def test_multipleCompetingOffers(self):
         of1 = chk.MultiPriceOffer({'A': 1}, 20)
         of2 = chk.MultiPriceOffer({'A': 4}, 60)
-        assert chk.checkout("AAAA", [of1, of2]) == 80
-        assert chk.checkout("AAAA", [of2, of1]) == 60 # sorted by best saving
+        assert chk.checkout("AAAA", [of1, of2]) == 60
+        assert chk.checkout("AAAA", [of2, of1]) == 60
 
     def test_two_e_one_b_free(self):
         assert chk.checkout("EEB") == chk.SKU_PRICES["E"] * 2
@@ -100,11 +100,8 @@ class TestChk():
         assert chk.checkout("FF") == chk.SKU_PRICES["F"] * 2
         assert chk.checkout("FFF") == chk.SKU_PRICES["F"] * 2
         assert chk.checkout("FFF", []) == chk.SKU_PRICES["F"] * 3
-
-        # Assume that "buy 2 Fs and get one free" is identical to
-        # "3 Fs for the price of 2" in that you can apply the offer more than
-        # once. (Only the wording is new).
         assert chk.checkout("FFFF") == chk.SKU_PRICES["F"] * 3
         assert chk.checkout("FFFFF") == chk.SKU_PRICES["F"] * 4
         assert chk.checkout("FFFFFF") == chk.SKU_PRICES["F"] * 4
         assert chk.checkout("FFFFFFF") == chk.SKU_PRICES["F"] * 5
+

@@ -46,19 +46,21 @@ class MultiPriceOffer:
         price (int): Discounted price itemsIncluded can be purchased for, in the
         same units as SKU_PRICES
         """
-
         self.itemsIncluded = items
         self.price = price
         self.saving = getTotalPrice(self.itemsIncluded) - self.price
         assert self.saving > 0
 
-    def isEligible(self, purchase):
-        """Returns: bool: True if given purchase is eligible for this offer"""
-
+    def getPotentialSaving(self, purchase):
+        """
+        Returns:
+        int: Money that could be saved by applying this offer,
+        or 0 if the purchase is not eligible.
+        """
         for sku in self.itemsIncluded:
             if purchase.get(sku, 0) < self.itemsIncluded[sku]:
-                return False
-        return True
+                return 0
+        return self.saving
 
     def applyTo(self, purchase):
         """Removes the items included in this offer from the given purchase,
@@ -66,14 +68,13 @@ class MultiPriceOffer:
         Parameters:
         purchase (dict of str: int): Mapping of SKU to quantity.
         Returns:
-        bool: True if the offer was applied
+        int: Money saved by applying the offer, or 0 if not eligible
         """
-
-        if not self.isEligible(purchase):
-            return False
+        if self.getPotentialSaving(purchase) == 0:
+            return 0
         for sku in self.itemsIncluded:
             purchase[sku] -= self.itemsIncluded[sku]
-        return True
+        return self.saving
 
 CURRENT_OFFERS = [
 
@@ -122,13 +123,10 @@ CURRENT_OFFERS = [
     # "3V for 130"
     MultiPriceOffer({'V': 3}, 130),
 ]
-CURRENT_OFFERS.sort(key=lambda o: o.saving, reverse=True)
 
-def applyFirstOfferTo(purchase, offers):
-    for offer in offers:
-        if offer.applyTo(purchase):
-            return offer.saving
-    return 0
+def applyBestOffer(purchase, offers):
+    bestOffer = max(offers, key=lambda o: o.getPotentialSaving(purchase))
+    return bestOffer.applyTo(purchase)
 
 # noinspection PyUnusedLocal
 # skus = unicode string
@@ -137,8 +135,7 @@ def checkout(skus, offers=CURRENT_OFFERS):
 
     Parameters:
     skus (string): The SKUs of items purchased, e.g. "AABABBACD".
-    offers (list of MultiPriceOffer): Offers to apply if eligible, sorted best
-    saving first.
+    offers (list of MultiPriceOffer): Offers to apply if eligible.
 
     Returns:
     int: The total price (in the same unit as used in SKU_PRICES)
@@ -153,9 +150,10 @@ def checkout(skus, offers=CURRENT_OFFERS):
     price = getTotalPrice(purchase)
 
     while True:
-        saving = applyFirstOfferTo(purchase, offers)
+        saving = applyBestOffer(purchase, offers)
         if saving == 0:
             break
         price -= saving
 
     return price
+
