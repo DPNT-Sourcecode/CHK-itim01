@@ -3,7 +3,7 @@ from test.solution_tests.CHK.test_chk import TEST_PRICES
 
 class TestMultiPriceOffer():
 
-    def test_applyTo(self):
+    def test_getPotentialSaving(self):
         sku = 'A'
         offerContents = {sku: 1}
         offerPrice = 10
@@ -29,8 +29,27 @@ class TestMultiPriceOffer():
 
 class TestGroupDiscountOffer():
 
-    def test_applyTo(self):
+    def test_getPotentialSavingNone(self):
+        offer = offers.GroupDiscountOffer(['A'], 3, TEST_PRICES['A'] * 4, TEST_PRICES)
+        assert offer.getPotentialSaving({'A': 3}) == 0
         pass
 
+    def test_getPotentialSavingActual(self):
+        offer = offers.GroupDiscountOffer(['A'], 1, 10, TEST_PRICES)
+        assert offer.getBestSelection({'A': 1}) == {'A': 1}
+        assert offer.getPotentialSaving({'A': 1}) == TEST_PRICES['A'] - 10
+
     def test_applyToMultipleTimes(self):
-        pass
+        bargain = 1
+        prices = {'A': 1, 'B': 2, 'C': 3}
+        offer = offers.GroupDiscountOffer(['A', 'B', 'C'], 3, bargain, prices)
+        basket = {'A': 3, 'B': 3, 'C': 3}
+        assert offer.applyTo(basket) == prices['C'] * 3 - bargain
+        assert basket['C'] == 0
+        assert basket['A'] == basket['B'] == 3
+        assert offer.applyTo(basket) == prices['B'] * 3 - bargain
+        assert basket['B'] == 0
+        assert basket['A'] == 3
+        assert offer.applyTo(basket) == prices['A'] * 3 - bargain
+        assert basket['A'] == 0
+
