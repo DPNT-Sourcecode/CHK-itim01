@@ -7,16 +7,17 @@ class MultiPriceOffer:
        bought for a certain discounted price.
        For example: Buy 3 apples and one banana for £1"""
 
-    def __init__(self, items, price):
+    def __init__(self, items, price, prices):
         """
         Parameters:
         items (dict of str: int): Mapping of what SKUs are included in
         the offer to how many of each are included.
         price (int): Discounted price itemsIncluded can be purchased for
+        prices (dict of str: int): Mapping of SKU to price
         """
         self.itemsIncluded = items
         self.price = price
-        self.saving = chk.getTotalPrice(self.itemsIncluded) - self.price
+        self.saving = chk.getTotalPrice(self.itemsIncluded, prices) - self.price
         assert self.saving > 0
 
     def getPotentialSaving(self, purchase):
@@ -72,6 +73,7 @@ class GroupDiscountOffer:
     def applyTo(self, purchase):
         """See MultiPriceOffer.applyTo"""
         pass
+
 
 
 
