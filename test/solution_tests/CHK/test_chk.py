@@ -99,5 +99,3 @@ class TestChk():
         offer = chk.GroupDiscountOffer(['A', 'B'], 2, 10)
         assert chk.checkout('AAAAAA', [offer]) == 10 * 3
         assert chk.checkout('AAABBB', [offer]) == 10 * 3
-
-
