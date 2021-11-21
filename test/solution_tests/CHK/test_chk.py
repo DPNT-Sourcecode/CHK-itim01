@@ -124,7 +124,7 @@ class TestChk():
     def test_multipleCompetingGroupDiscountOffers(self):
         of1 = GroupDiscountOffer(['C'], 2, 20, TEST_PRICES)
         of2 = GroupDiscountOffer(['A', 'B', 'C'], 3, 30, TEST_PRICES)
-        assert chk.checkout('ABCC', TEST_PRICES, [of1, of2]) == 20 + TEST_PRICES['C']
+        assert chk.checkout('ABCC', TEST_PRICES, [of1, of2]) == 30 + TEST_PRICES['C']
 
     def test_groupDiscountAndMultiBuy(self):
         of1 = GroupDiscountOffer(['A', 'B', 'C'], 3, 20, TEST_PRICES)
@@ -137,6 +137,7 @@ class TestChk():
 
     def test_groupDiscountWorseThanNothing(self):
         assert False # TODO
+
 
 
 
