@@ -95,3 +95,9 @@ class TestChk():
         assert chk.checkout('BC', [offer]) == 20
         assert chk.checkout('CA', [offer]) == 20
 
+    def test_groupDiscountOfferMultipleTimes(self):
+        offer = chk.GroupDiscountOffer(['A', 'B'], 2, 10)
+        assert chk.checkout('AAAAAA', [offer]) == 10 * 3
+        assert chk.checkout('AAABBB', [offer]) == 10 * 3
+
+
