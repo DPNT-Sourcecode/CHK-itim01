@@ -72,3 +72,26 @@ class TestChk():
         assert chk.checkout("FFFFF") == chk.SKU_PRICES["F"] * 4
         assert chk.checkout("FFFFFF") == chk.SKU_PRICES["F"] * 4
         assert chk.checkout("FFFFFFF") == chk.SKU_PRICES["F"] * 5
+
+    def test_singleItemGroupDiscountOffer(self):
+        offer = chk.GroupDiscountOffer(['A'], 1, 10)
+        assert chk.checkout('A', [offer]) == 10
+        assert chk.checkout('B', [offer]) == chk.SKU_PRICES['B']
+        offer = chk.GroupDiscountOffer(['A', 'B'], 1, 10)
+        assert chk.checkout('A', [offer]) == 10
+        assert chk.checkout('B', [offer]) == 10
+        assert chk.checkout('AB', [offer]) == 10 + (chk.SKU_PRICES[c] for c in "AB")
+        offer = chk.GroupDiscountOffer(['B', 'A'], 1, 10)
+        assert chk.checkout('A', [offer]) == 10
+        assert chk.checkout('B', [offer]) == 10
+        assert chk.checkout('AB', [offer]) == 10 + min(chk.SKU_PRICES[c] for c in "AB")
+
+    def test_multiItemGroupDiscountOffer(self):
+        offer = chk.GroupDiscountOffer(['A', 'B', 'C'], 2, 20)
+        assert chk.checkout('AA', [offer]) == 20
+        assert chk.checkout('BB', [offer]) == 20
+        assert chk.checkout('CC', [offer]) == 20
+        assert chk.checkout('AB', [offer]) == 20
+        assert chk.checkout('BC', [offer]) == 20
+        assert chk.checkout('CA', [offer]) == 20
+
