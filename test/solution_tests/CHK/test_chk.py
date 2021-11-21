@@ -137,5 +137,3 @@ class TestChk():
     def test_groupDiscountWorseThanNothing(self):
         assert False # TODO
 
-
-
