@@ -88,17 +88,24 @@ class GroupDiscountOffer:
         return selection
 
 
-    def getPotentialSaving(self, purchase):
-        """See MultiPriceOffer.getPotentialSaving"""
+    def getPotentialSaving_Internal(self, purchase):
         selection = self.getBestSelection(purchase)
         if selection is None:
-            return 0
+            return 0, None
         saving = self.price - chk.getTotalPrice(selection, self.prices)
         if saving < 0:
-            return 0
+            return 0, None
+        return saving, selection
+
+    def getPotentialSaving(self, purchase):
+        """See MultiPriceOffer.getPotentialSaving"""
+        saving, selection = self.getPotentialSaving_Internal(purchase)
         return saving
 
     def applyTo(self, purchase):
         """See MultiPriceOffer.applyTo"""
+        selection = self.getBestSelection(purchase)
+        if selection is None:
         pass
+
 
