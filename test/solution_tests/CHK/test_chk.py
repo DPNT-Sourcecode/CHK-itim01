@@ -70,17 +70,19 @@ class TestChk():
         assert chk.checkout('AAAA', TEST_PRICES, [of2, of1]) == 60
 
     def test_two_e_one_b_free(self):
-        assert chk.checkout('EEB') == TEST_PRICES['E'] * 2
-        assert chk.checkout('BEE') == TEST_PRICES['E'] * 2
+        offer = chk.MultiPriceOffer({'E': 2, 'B': 1}, chk.getTotalPrice({'E': 2}))
+        assert chk.checkout('EEB', TEST_PRICES, [offer]) == TEST_PRICES['E'] * 2
+        assert chk.checkout('BEE', TEST_PRICES, [offer]) == TEST_PRICES['E'] * 2
 
     def test_two_f_get_one_f_free(self):
-        assert chk.checkout('FF') == TEST_PRICES['F'] * 2
-        assert chk.checkout('FFF') == TEST_PRICES['F'] * 2
-        assert chk.checkout('FFF', TEST_PRICES, []) == TEST_PRICES['F'] * 3
-        assert chk.checkout('FFFF') == TEST_PRICES['F'] * 3
-        assert chk.checkout('FFFFF') == TEST_PRICES['F'] * 4
-        assert chk.checkout('FFFFFF') == TEST_PRICES['F'] * 4
-        assert chk.checkout('FFFFFFF') == TEST_PRICES['F'] * 5
+        offer = chk.MultiPriceOffer({'F': 3}, chk.getTotalPrice({'F': 2}))
+        assert chk.checkout('FF', TEST_PRICES, [offer]) == TEST_PRICES['F'] * 2
+        assert chk.checkout('FFF', TEST_PRICES, [offer]) == TEST_PRICES['F'] * 2
+        assert chk.checkout('FFF', TEST_PRICES, [offer], TEST_PRICES, []) == TEST_PRICES['F'] * 3
+        assert chk.checkout('FFFF', TEST_PRICES, [offer]) == TEST_PRICES['F'] * 3
+        assert chk.checkout('FFFFF', TEST_PRICES, [offer]) == TEST_PRICES['F'] * 4
+        assert chk.checkout('FFFFFF', TEST_PRICES, [offer]) == TEST_PRICES['F'] * 4
+        assert chk.checkout('FFFFFFF', TEST_PRICES, [offer]) == TEST_PRICES['F'] * 5
 
     def test_singleItemGroupDiscountOffer(self):
         offer = chk.GroupDiscountOffer(['A'], 1, 10)
@@ -121,5 +123,6 @@ class TestChk():
 
     def test_groupDiscountAndMultiBuy(self):
         pass
+
 
 
