@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from offers import MultiPriceOffer, GroupDiscountOffer
+from solutions.CHK import offers as offs
 
 ERROR_INVALID_ARGUMENT = -1
 
@@ -38,49 +38,49 @@ def getTotalPrice(quantities, prices=PRICES):
 CURRENT_OFFERS = [
 
     # "3A for 130"
-    MultiPriceOffer({'A': 3}, 130, PRICES),
+    offs.MultiPriceOffer({'A': 3}, 130, PRICES),
 
     # "5A for 200"
-    MultiPriceOffer({'A': 5}, 200, PRICES),
+    offs.MultiPriceOffer({'A': 5}, 200, PRICES),
 
     # "2B for 45"
-    MultiPriceOffer({'B': 2}, 45, PRICES),
+    offs.MultiPriceOffer({'B': 2}, 45, PRICES),
 
     # "2E get one B free"
-    MultiPriceOffer({'E': 2, 'B': 1}, getTotalPrice({'E': 2}), PRICES),
+    offs.MultiPriceOffer({'E': 2, 'B': 1}, getTotalPrice({'E': 2}), PRICES),
 
     # "2F get one F free"
-    MultiPriceOffer({'F': 3}, getTotalPrice({'F': 2}), PRICES),
+    offs.MultiPriceOffer({'F': 3}, getTotalPrice({'F': 2}), PRICES),
 
     # "5H for 45"
-    MultiPriceOffer({'H': 5}, 45, PRICES),
+    offs.MultiPriceOffer({'H': 5}, 45, PRICES),
 
     # "10H for 80"
-    MultiPriceOffer({'H': 10}, 80, PRICES),
+    offs.MultiPriceOffer({'H': 10}, 80, PRICES),
 
     # "2K for 150"
-    MultiPriceOffer({'K': 2}, 150, PRICES),
+    offs.MultiPriceOffer({'K': 2}, 150, PRICES),
 
     # "3N get one M free"
-    MultiPriceOffer({'N': 3, 'M': 1}, getTotalPrice({'N': 3}), PRICES),
+    offs.MultiPriceOffer({'N': 3, 'M': 1}, getTotalPrice({'N': 3}), PRICES),
 
     # "5P for 200"
-    MultiPriceOffer({'P': 5}, 200, PRICES),
+    offs.MultiPriceOffer({'P': 5}, 200, PRICES),
 
     # "3Q for 80"
-    MultiPriceOffer({'Q': 3}, 80, PRICES),
+    offs.MultiPriceOffer({'Q': 3}, 80, PRICES),
 
     # "3R get one Q free"
-    MultiPriceOffer({'R': 3, 'Q': 1}, getTotalPrice({'R': 3}), PRICES),
+    offs.MultiPriceOffer({'R': 3, 'Q': 1}, getTotalPrice({'R': 3}), PRICES),
 
     # "3U get one U free"
-    MultiPriceOffer({'U': 4}, getTotalPrice({'U': 3}), PRICES),
+    offs.MultiPriceOffer({'U': 4}, getTotalPrice({'U': 3}), PRICES),
 
     # "2V for 90"
-    MultiPriceOffer({'V': 2}, 90, PRICES),
+    offs.MultiPriceOffer({'V': 2}, 90, PRICES),
 
     # "3V for 130"
-    MultiPriceOffer({'V': 3}, 130, PRICES),
+    offs.MultiPriceOffer({'V': 3}, 130, PRICES),
 ]
 
 def applyBestOffer(purchase, offers):
@@ -97,7 +97,7 @@ def checkout(skus, prices=PRICES, offers=CURRENT_OFFERS):
     Parameters:
     skus (string): The SKUs of items purchased, e.g. "AABABBACD".
     prices (dict of str to int): Mapping of SKU to price
-    offers (list of MultiPriceOffer): Offers to apply if eligibl, PRICESe.
+    offers (list of offs.MultiPriceOffer): Offers to apply if eligibl, PRICESe.
 
     Returns:
     int: The total price (in the same unit as used in prices)
@@ -118,3 +118,4 @@ def checkout(skus, prices=PRICES, offers=CURRENT_OFFERS):
         price -= saving
 
     return price
+
