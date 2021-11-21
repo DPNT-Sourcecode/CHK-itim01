@@ -91,7 +91,7 @@ class GroupDiscountOffer:
         selection = self.getBestSelection(purchase)
         if selection is None:
             return 0, None
-        saving = self.price - chk.getTotalPrice(selection, self.prices)
+        saving = chk.getTotalPrice(selection, self.prices) - self.price
         if saving < 0:
             return 0, None
         return saving, selection
@@ -109,3 +109,4 @@ class GroupDiscountOffer:
         for sku in selection:
             purchase[sku] -= selection[sku]
         return saving
+
