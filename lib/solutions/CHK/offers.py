@@ -2,12 +2,13 @@ import checkout_solution as chk
 
 class MultiPriceOffer:
     """Represents a special offer in which a certain set of items can can be
-       bought for a certain discounted price"""
+       bought for a certain discounted price.
+       For example: Buy 3 apples and one banana for £1"""
 
     def __init__(self, items, price):
         """
         Parameters:
-        itemsIncluded (dict of str: int): Mapping of what SKUs are included in
+        items (dict of str: int): Mapping of what SKUs are included in
         the offer to how many of each are included.
         price (int): Discounted price itemsIncluded can be purchased for, in the
         same units as SKU_PRICES
@@ -41,3 +42,32 @@ class MultiPriceOffer:
         for sku in self.itemsIncluded:
             purchase[sku] -= self.itemsIncluded[sku]
         return self.saving
+
+class GroupDiscountOffer:
+    """Represents a special offer in which a certain number of items from a
+       given set of item types can be bough for a discounted price.
+       For example: Buy any 3 fruits (A, B, C, and/or D) for £3.
+       The items need not be different: The same items 3 times counts."""
+
+    def __init__(self, itemTypes, itemCount, price):
+        """
+        Parameters:
+        items (list of str): SKUs included in the offer.
+        itemCount (int): Number of items which must be purchased.
+        price: Discounted price itemCount items can be bought for.
+        """
+        self.itemTypes = itemTypes
+        self.itemCount = itemCount
+        self.price = price
+
+        # store itemTypes most expensive first
+        self.itemTypes.sort(key=lambda sku: chk.SKU_PRICES[sku], reverse=True)
+
+    def getPotentialSaving(self, purchase):
+        """See MultiPriceOffer.getPotentialSaving"""
+        pass
+
+    def applyTo(self, purchase):
+        """See MultiPriceOffer.applyTo"""
+        pass
+
