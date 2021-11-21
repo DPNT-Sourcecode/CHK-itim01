@@ -73,8 +73,3 @@ class GroupDiscountOffer:
     def applyTo(self, purchase):
         """See MultiPriceOffer.applyTo"""
         pass
-
-
-
-
-

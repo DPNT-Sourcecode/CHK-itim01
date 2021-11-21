@@ -122,9 +122,11 @@ class TestChk():
         assert chk.checkout('ABCC', TEST_PRICES, [of1, of2]) == 20 + TEST_PRICES['C']
 
     def test_groupDiscountAndMultiBuy(self):
-        pass
-
-
-
-
+        of1 = chk.GroupDiscountOffer(['A', 'B', 'C'], 3, 20, TEST_PRICES)
+        of2 = chk.MultiPriceOffer({'A': 1, 'B': 1, 'C': 1}, 30)
+        assert chk.checkout('ABC', TEST_PRICES, [of1, of2]) == 20
+        of1 = chk.GroupDiscountOffer(['A', 'B', 'C'], 3, 40, TEST_PRICES)
+        of2 = chk.MultiPriceOffer({'A': 1, 'B': 1, 'C': 1}, 30)
+        assert chk.checkout('ABC', TEST_PRICES, [of1, of2]) == 30
+        assert chk.checkout('ABCCCC', TEST_PRICES, [of1, of2]) == 30 + 40
 

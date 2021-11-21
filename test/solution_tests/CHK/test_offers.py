@@ -34,4 +34,3 @@ class TestGroupDiscountOffer():
 
     def test_applyToMultipleTimes(self):
         pass
-
